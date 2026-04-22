@@ -18,17 +18,18 @@ def send_order_alert(order):
         f"{customer.get('first_name', '')} {customer.get('last_name', '')}".strip()
         or (order.get("billing_address") or {}).get("name", "").strip()
         or (order.get("shipping_address") or {}).get("name", "").strip()
+        or order.get("email", "").strip()
+        or order.get("contact_email", "").strip()
     )
     if not customer_name and customer.get("id"):
         try:
             full_customer = get_customer(customer["id"])
-            print(f"DEBUG full_customer: {full_customer}")
             customer_name = (
                 f"{full_customer.get('first_name', '')} {full_customer.get('last_name', '')}".strip()
-                or full_customer.get("email", "")
+                or full_customer.get("email", "").strip()
             )
-        except Exception as e:
-            print(f"DEBUG get_customer error: {e}")
+        except Exception:
+            pass
     customer_name = customer_name or "Guest"
 
     message = {
