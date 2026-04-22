@@ -20,12 +20,15 @@ def send_order_alert(order):
         or (order.get("shipping_address") or {}).get("name", "").strip()
     )
     if not customer_name and customer.get("id"):
-        full_customer = get_customer(customer["id"])
-        customer_name = (
-            f"{full_customer.get('first_name', '')} {full_customer.get('last_name', '')}".strip()
-            or full_customer.get("email", "")
-            or "Guest"
-        )
+        try:
+            full_customer = get_customer(customer["id"])
+            customer_name = (
+                f"{full_customer.get('first_name', '')} {full_customer.get('last_name', '')}".strip()
+                or full_customer.get("email", "")
+            )
+        except Exception:
+            pass
+    customer_name = customer_name or "Guest"
 
     message = {
         "text": f":shopping_bags: New Shopify Order #{order_number}",
