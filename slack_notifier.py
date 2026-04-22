@@ -22,12 +22,13 @@ def send_order_alert(order):
     if not customer_name and customer.get("id"):
         try:
             full_customer = get_customer(customer["id"])
+            print(f"DEBUG full_customer: {full_customer}")
             customer_name = (
                 f"{full_customer.get('first_name', '')} {full_customer.get('last_name', '')}".strip()
                 or full_customer.get("email", "")
             )
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"DEBUG get_customer error: {e}")
     customer_name = customer_name or "Guest"
 
     message = {
