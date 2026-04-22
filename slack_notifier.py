@@ -16,6 +16,7 @@ def send_order_alert(order):
     customer = order.get("customer") or {}
     customer_name = (
         f"{customer.get('first_name', '')} {customer.get('last_name', '')}".strip()
+        or customer.get("email", "").strip()
         or (order.get("billing_address") or {}).get("name", "").strip()
         or (order.get("shipping_address") or {}).get("name", "").strip()
         or order.get("email", "").strip()
