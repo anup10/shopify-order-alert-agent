@@ -12,8 +12,13 @@ def send_order_alert(order):
     order_number = order.get("order_number")
     total_price = order.get("total_price")
     currency = order.get("currency")
-    customer = order.get("customer", {})
-    customer_name = f"{customer.get('first_name', '')} {customer.get('last_name', '')}".strip() or "Guest"
+    customer = order.get("customer") or {}
+    customer_name = (
+        f"{customer.get('first_name', '')} {customer.get('last_name', '')}".strip()
+        or (order.get("billing_address") or {}).get("name", "").strip()
+        or (order.get("shipping_address") or {}).get("name", "").strip()
+        or "Guest"
+    )
 
     message = {
         "text": f":shopping_bags: New Shopify Order #{order_number}",
