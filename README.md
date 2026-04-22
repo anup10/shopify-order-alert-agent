@@ -115,6 +115,15 @@ pkill -f "main.py"
 
 ---
 
+## Known Limitations
+
+### Customer name on Shopify development stores
+Shopify development/demo stores strip all PII (names, emails) from REST API responses. As a result, the **Customer** field in Slack alerts will always show `Guest` when running against a development store, even if the customer record has a name and email in the Shopify admin.
+
+On a real production store, the `customer.first_name`, `customer.last_name`, `billing_address.name`, and `order.email` fields are fully populated and the customer name will resolve correctly.
+
+---
+
 ## Use Case
 
 This agent is intentionally simple by design — a focused, single-purpose tool that is straightforward to extend. Below are two real-world directions it could grow in a production e-commerce context.
