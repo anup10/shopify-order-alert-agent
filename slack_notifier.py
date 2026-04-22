@@ -1,5 +1,6 @@
 import requests
 from dotenv import load_dotenv
+from shopify_client import get_customer
 import os
 
 load_dotenv()
@@ -13,13 +14,18 @@ def send_order_alert(order):
     total_price = order.get("total_price")
     currency = order.get("currency")
     customer = order.get("customer") or {}
-    print(f"DEBUG order #{order.get('order_number')} - customer: {customer}, billing: {order.get('billing_address')}, shipping: {order.get('shipping_address')}")
     customer_name = (
         f"{customer.get('first_name', '')} {customer.get('last_name', '')}".strip()
         or (order.get("billing_address") or {}).get("name", "").strip()
         or (order.get("shipping_address") or {}).get("name", "").strip()
-        or "Guest"
     )
+    if not customer_name and customer.get("id"):
+        full_customer = get_customer(customer["id"])
+        customer_name = (
+            f"{full_customer.get('first_name', '')} {full_customer.get('last_name', '')}".strip()
+            or full_customer.get("email", "")
+            or "Guest"
+        )
 
     message = {
         "text": f":shopping_bags: New Shopify Order #{order_number}",
