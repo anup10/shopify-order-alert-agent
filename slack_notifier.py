@@ -31,7 +31,6 @@ def send_order_alert(order):
         except Exception:
             pass
     customer_name = customer_name or "Guest"
-    print(f"DEBUG order #{order_number} - customer_name: '{customer_name}', order.email: '{order.get('email')}', customer: {customer}")
 
     message = {
         "text": f":shopping_bags: New Shopify Order #{order_number}",
