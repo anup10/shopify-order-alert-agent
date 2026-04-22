@@ -13,6 +13,7 @@ def send_order_alert(order):
     total_price = order.get("total_price")
     currency = order.get("currency")
     customer = order.get("customer") or {}
+    print(f"DEBUG order #{order.get('order_number')} - customer: {customer}, billing: {order.get('billing_address')}, shipping: {order.get('shipping_address')}")
     customer_name = (
         f"{customer.get('first_name', '')} {customer.get('last_name', '')}".strip()
         or (order.get("billing_address") or {}).get("name", "").strip()
