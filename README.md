@@ -60,7 +60,7 @@ source venv/bin/activate
 ### 3. Install dependencies
 
 ```bash
-pip install requests apscheduler python-dotenv
+pip install -r requirements.txt
 ```
 
 ### 4. Configure your environment variables
